@@ -20,9 +20,9 @@ name: CMake on multiple platforms
 
 on:  # yamllint disable-line rule:truthy
   push:
-    branches: ["main"]
+    branches: ["main", "lcc_*"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "lcc_*"]
 
 jobs:
   build:
