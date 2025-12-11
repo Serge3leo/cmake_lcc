@@ -28,9 +28,6 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
-    env:
-      mrognor_version: 0.1.1
-
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all
       # matrix combinations. Consider changing this to true when your workflow
@@ -80,7 +77,7 @@ jobs:
             platform: "linux"
           - c_compiler: lcc
             cpp_compiler: l++
-            mrognor_version: 0.1.1
+            lcc_dirname: lcc-1.29.12.e2k-v5.8c2.linux-6.1  # TODO:
             cross_emul: e2k
             cmake_add: >
               -DCMAKE_CROSSCOMPILING=ON -DCMAKE_SYSTEM_NAME=Generic-ELF
@@ -113,13 +110,18 @@ jobs:
             /usr/local/bin/qemu-e2k
             /usr/local/bin/lcc
             /usr/local/bin/l++
-          key: cache-${{ matrix.mrognor_version }}-mrognor
+          key: cache-${{ matrix.lcc_dirname }}-mrognor
 
       - name: Non-cache install LCC MCST Elbrus e2k
         if: ${{ matrix.c_compiler == 'lcc' &&
                 steps.cache-lcc.outputs.cache-hit != 'true' }}
         timeout-minutes: 10
-        uses: mrognor/lcc-env-action@0.1.1  # TODO: matrix.mrognor_version
+        uses: mrognor/lcc-env-action@0.1.1
+        with:
+          # TODO: matrix.lcc_dirname
+          lcc_dirname: lcc-1.29.12.e2k-v5.8c2.linux-6.1
+          lcc_tarname: cross-sp-1.29.12.e2k-v5.8c2.linux-6.1_64.tgz
+          lcc_link: https://dev.mcst.ru/downloads/2025-06-27/cross-sp-1.29.12.e2k-v5.8c2.linux-6.1_64.tgz  # yamllint disable-line rule:line-length
 
       - name: e2k bug workaround
         if: ${{ matrix.c_compiler == 'lcc' }}
