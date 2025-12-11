@@ -212,5 +212,6 @@ jobs:
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
         if: ${{ matrix.platform != 'win32' }}
         run: |
-          ${{ matrix.cross_emul}} ./hello*
-          ${{ matrix.cross_emul}} ./hello++*
+          for h in ./hello* ; do
+            ${{ matrix.cross_emul}} $h
+          done

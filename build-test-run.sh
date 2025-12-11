@@ -29,5 +29,6 @@ cmake -B "$build_output_dir" \
 cmake --build "$build_output_dir" --config $build_type
 cd "$build_output_dir"
 ctest --build-config $build_type
-$cross_emul ./hello*
-$cross_emul ./hello++*
+for h in ./hello* ; do
+    $cross_emul $h
+done
