@@ -19,6 +19,9 @@ int main(void) {
     #if _MSC_VER
         printf("_MSC_VER %d\n", _MSC_VER);
     #endif
+    #if __INTEL_LLVM_COMPILER
+        printf("__INTEL_LLVM_COMPILER %d\n", __INTEL_LLVM_COMPILER);
+    #endif
     #if __LCC__
         printf("__LCC__.__LCC_MINOR__ %d.%d\n",
                 __LCC__, __LCC_MINOR__);

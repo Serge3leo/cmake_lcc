@@ -19,6 +19,9 @@ int main(void) {
     #if _MSC_VER
         std::cout << "_MSC_VER: " << _MSC_VER << '\n';
     #endif
+    #if __INTEL_LLVM_COMPILER
+        std::cout << "__INTEL_LLVM_COMPILER: " << __INTEL_LLVM_COMPILER << '\n';
+    #endif
     #if __LCC__
         std::cout << "__LCC__ __LCC_MINOR__: "
                   << __LCC__ << ' ' << __LCC_MINOR__ << '\n';
