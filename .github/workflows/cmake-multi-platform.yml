@@ -119,7 +119,7 @@ jobs:
         if: ${{ matrix.c_compiler == 'lcc' &&
                 steps.cache-lcc.outputs.cache-hit != 'true' }}
         timeout-minutes: 10
-        uses: "mrognor/lcc-env-action@$mrognor_version"
+        uses: mrognor/lcc-env-action@0.1.1  # TODO: matrix.mrognor_version
 
       - name: e2k bug workaround
         if: ${{ matrix.c_compiler == 'lcc' }}
