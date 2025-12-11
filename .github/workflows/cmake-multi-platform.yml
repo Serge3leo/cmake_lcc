@@ -118,7 +118,7 @@ jobs:
       - name: Non-cache install LCC MCST Elbrus e2k
         if: ${{ matrix.c_compiler == 'lcc' &&
                 steps.cache-lcc.outputs.cache-hit != 'true' }}
-        uses: mrognor/lcc-env-action@${{ matrix.mrognor_version }}
+        uses: mrognor/lcc-env-action@0.1.1  # TODO: matrix.mrognor_version
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
