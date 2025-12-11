@@ -1,0 +1,34 @@
+---
+# vim:set sw=2 ts=8 et fileencoding=utf8:
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2025 Сергей Леонтьев (leo@sai.msu.ru)
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: ["--markdown-linebreak-ext=md"]
+      - id: no-commit-to-branch
+
+  # - repo: https://github.com/koalaman/shellcheck-precommit
+  #   rev: v0.9.0
+  #   hooks:
+  #     - id: shellcheck
+  #       args: ["./check.sh"]
+
+  # https://habr.com/ru/companies/2gis/articles/838966/
+  # Git Hooks не так страшны, как их малюют, Aveldin
+
+  - repo: local  # Указывается local, так как файлик хука у нас находится в
+    #              репозитории
+
+    hooks:
+      - id: custom-hook  # Уникальный идентификатор хука
+        name: Start `yamllint`  # Имя хука
+        entry: ./.pre-commit-yamllint.sh  # Путь к хуку
+        language: script  # указание, что скрипт выполняется как обычный
+        #                   скрипт (script).
