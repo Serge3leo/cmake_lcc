@@ -82,9 +82,9 @@ jobs:
             cpp_compiler: l++
             mrognor_version: 0.1.1
             cross_emul: e2k
-            cmake_add: < -DCMAKE_CROSSCOMPILING=ON
-                         -DCMAKE_SYSTEM_NAME=Generic-ELF
-                         -DCMAKE_CROSSCOMPILING_EMULATOR=e2k
+            cmake_add: >
+              -DCMAKE_CROSSCOMPILING=ON -DCMAKE_SYSTEM_NAME=Generic-ELF
+              -DCMAKE_CROSSCOMPILING_EMULATOR=e2k
             os: ubuntu-latest
             platform: "e2k"
         exclude:
@@ -200,3 +200,17 @@ jobs:
         # detail
 
         run: ctest --build-config ${{ matrix.build_type }}
+
+      - name: Run Windows
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        if: ${{ matrix.platform == 'win32' }}
+        run: |
+          ${{ matrix.build_type }}\hello
+          ${{ matrix.build_type }}\hello++
+
+      - name: Run Linux
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        if: ${{ matrix.platform != 'win32' }}
+        run: |
+          ${{ matrix.cross_emul}} ./hello*
+          ${{ matrix.cross_emul}} ./hello++*
