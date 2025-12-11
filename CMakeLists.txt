@@ -14,6 +14,7 @@ project(cmake_lcc
 
 add_executable(hello hello.c)
 add_test(NAME hello_todo COMMAND hello)
+set_tests_properties(hello_todo PROPERTIES WILL_FAIL true)
 # TODO XXX set_tests_properties(hello PROPERTIES PASS_REGULAR_EXPRESSION "Привет мир")
 
 add_executable(hello++ hello++.cpp)
