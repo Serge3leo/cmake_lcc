@@ -28,6 +28,9 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
+    env:
+      mrognor_version: 0.1.1
+
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all
       # matrix combinations. Consider changing this to true when your workflow
@@ -78,7 +81,6 @@ jobs:
             platform: "linux"
           - c_compiler: lcc
             cpp_compiler: l++
-            mrognor_version: 0.1.1
             cross_emul: e2k
             cmake_add: < -DCMAKE_CROSSCOMPILING=ON
                          -DCMAKE_SYSTEM_NAME=Generic-ELF
@@ -111,12 +113,12 @@ jobs:
             /usr/local/bin/qemu-e2k
             /usr/local/bin/lcc
             /usr/local/bin/l++
-          key: cache-${{ matrix.mrognor_version }}-mrognor
+          key: cache-${{ env.mrognor_version }}-mrognor
 
       - name: Non-cache install LCC MCST Elbrus e2k
         if: ${{ matrix.c_compiler == 'lcc' &&
                 steps.cache-lcc.outputs.cache-hit != 'true' }}
-        uses: mrognor/lcc-env-action@${{ matrix.mrognor_version }}
+        uses: mrognor/lcc-env-action@${{ env.mrognor_version }}
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
