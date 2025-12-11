@@ -121,6 +121,13 @@ jobs:
         timeout-minutes: 10
         uses: mrognor/lcc-env-action@0.1.1  # TODO: matrix.mrognor_version
 
+      - name: e2k bug workaround
+        if: ${{ matrix.c_compiler == 'lcc' }}
+        run: |
+          lcc_dirname=$(dirname $(readlink /usr/local/bin/lcc))/..
+          echo "#!" > /usr/local/bin/e2k
+          echo "qemu-e2k -L ${lcc_dirname}/fs -- \"\$@\"" >> /usr/local/bin/e2k
+
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
         id: cache-icx
@@ -209,6 +216,7 @@ jobs:
         run: |
           ${{ matrix.build_type }}\hello
           ${{ matrix.build_type }}\hello++
+          ${{ matrix.build_type }}\bsd_echo my args
 
       - name: Run Linux
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
@@ -217,3 +225,4 @@ jobs:
           for h in ./hello* ; do
             ${{ matrix.cross_emul}} $h
           done
+          ${{ matrix.cross_emul}} ./bsd_echo* my args
