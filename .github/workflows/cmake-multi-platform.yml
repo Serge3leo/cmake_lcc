@@ -118,6 +118,7 @@ jobs:
       - name: Non-cache install LCC MCST Elbrus e2k
         if: ${{ matrix.c_compiler == 'lcc' &&
                 steps.cache-lcc.outputs.cache-hit != 'true' }}
+        timeout-minutes: 10
         uses: mrognor/lcc-env-action@0.1.1  # TODO: matrix.mrognor_version
 
       - name: Cache install oneAPI
@@ -132,6 +133,7 @@ jobs:
       - name: Non-cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' &&
                 steps.cache-icx.outputs.cache-hit != 'true' }}
+        timeout-minutes: 3
         run: |
           bash .github/workflows/oneapi_setup_apt_repo_linux.sh
           sudo apt install --no-install-recommends \
