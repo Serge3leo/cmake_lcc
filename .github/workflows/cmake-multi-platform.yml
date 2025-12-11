@@ -225,4 +225,4 @@ jobs:
           for h in ./hello* ; do
             ${{ matrix.cross_emul}} $h
           done
-          ${{ matrix.cross_emul}} ./bsd_echo my args
+          ${{ matrix.cross_emul}} ./bsd_echo* my args
