@@ -6,7 +6,7 @@
 # 2025-12-11 11:13:20 - Создан.
 
 set -e
-set -x 
+set -x
 
 if [ -z "$1" -o -z "$2" ] ; then
     echo "Использование: $0 <C-компилятор> <C++-компилятор>" 1>&2
@@ -15,11 +15,13 @@ fi
 build_type=Release
 build_output_dir="build/`uname -s`_$1_$2"
 mkdir -p "$build_output_dir"
-if [ "$1" == "lcc" ] ; then
+case "$1" in
+ lcc)
     cross_emul=e2k
     cmake_add="-DCMAKE_CROSSCOMPILING=ON -DCMAKE_SYSTEM_NAME=Generic-ELF \
 	       -DCMAKE_CROSSCOMPILING_EMULATOR=$cross_emul"
-fi
+    ;;
+esac
 cmake -B "$build_output_dir" \
       -DCMAKE_C_COMPILER="$1" \
       -DCMAKE_CXX_COMPILER="$2" \
