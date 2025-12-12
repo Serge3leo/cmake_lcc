@@ -114,7 +114,7 @@ jobs:
 
       - name: Non-cache install LCC MCST Elbrus e2k
         if: ${{ matrix.c_compiler == 'lcc' &&
-                steps.cache-lcc.outputs.cache-hit != 'true' }}
+                ! steps.cache-lcc.outputs.cache-hit }}
         timeout-minutes: 10
         uses: mrognor/lcc-env-action@0.1.1
         with:
@@ -126,7 +126,7 @@ jobs:
       - name: e2k bug workaround
         if: ${{ matrix.c_compiler == 'lcc' }}
         run: |
-          lcc_dirname=$(dirname $(readlink /usr/local/bin/lcc))/..
+          lcc_dirname=$(dirname $(dirname $(readlink /usr/local/bin/lcc)))
           echo "#!" > /usr/local/bin/e2k
           echo "qemu-e2k -L ${lcc_dirname}/fs -- \"\$@\"" >> /usr/local/bin/e2k
 
@@ -141,7 +141,7 @@ jobs:
 
       - name: Non-cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' &&
-                steps.cache-icx.outputs.cache-hit != 'true' }}
+                ! steps.cache-icx.outputs.cache-hit }}
         timeout-minutes: 3
         run: |
           bash .github/workflows/oneapi_setup_apt_repo_linux.sh
@@ -236,6 +236,6 @@ jobs:
 
       - name: Exclude unused files from oneAPI cache
         if: ${{ matrix.c_compiler == 'icx' &&
-                steps.cache-icx.outputs.cache-hit != 'true' }}
+                ! steps.cache-icx.outputs.cache-hit }}
         run: |
           bash .github/workflows/oneapi_cache_exclude_linux.sh
