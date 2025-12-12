@@ -226,11 +226,11 @@ jobs:
         run: |
           for h in ./hello* ; do
             ${{ matrix.cross_emul}} $h || {
-              echo Fail: $?
+              echo Fail: $? of $h
             }
           done
           ${{ matrix.cross_emul}} ./bsd_echo* my args || {
-            echo Fail: $?
+            echo Fail: $? of ./bsd_echo*
             true
           }
 
