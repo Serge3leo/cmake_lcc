@@ -13,12 +13,11 @@ project(cmake_lcc
         LANGUAGES C CXX)
 
 add_executable(hello hello.c)
-if (CMAKE_C_COMPILER_ID MATCHES "LCC")
-    add_test(NAME hello_failed COMMAND hello)  # TODO
-    set_tests_properties(hello_failed PROPERTIES WILL_FAIL true)
-else ()
-    add_test(NAME hello COMMAND hello)
-    set_tests_properties(hello PROPERTIES PASS_REGULAR_EXPRESSION "Привет мир")
+add_test(NAME hello COMMAND hello)
+set_tests_properties(hello PROPERTIES PASS_REGULAR_EXPRESSION "Привет мир")
+if (CMAKE_C_COMPILER_ID MATCHES "LCC" AND
+    CMAKE_C_COMPILER_VERSION MATCHES "1.29")
+    set_tests_properties(hello PROPERTIES DISABLED true)
 endif ()
 
 add_executable(hello++ hello++.cpp)
