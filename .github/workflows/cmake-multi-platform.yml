@@ -224,11 +224,15 @@ jobs:
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
         if: ${{ matrix.platform != 'win32' }}
         run: |
-          #for h in ./hello* ; do
-          #  ${{ matrix.cross_emul}} $h
-          #done
-          #${{ matrix.cross_emul}} ./bsd_echo* my args
-          true
+          for h in ./hello* ; do
+            ${{ matrix.cross_emul}} $h || {
+              echo Fail: $?
+            }
+          done
+          ${{ matrix.cross_emul}} ./bsd_echo* my args || {
+            echo Fail: $?
+            true
+          }
 
       - name: Exclude unused files from oneAPI cache
         if: ${{ matrix.c_compiler == 'icx' &&
