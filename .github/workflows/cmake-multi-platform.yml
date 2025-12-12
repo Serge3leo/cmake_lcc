@@ -229,3 +229,9 @@ jobs:
           #done
           #${{ matrix.cross_emul}} ./bsd_echo* my args
           true
+
+      - name: Exclude unused files from oneAPI cache
+        if: ${{ matrix.c_compiler == 'icx' &&
+                steps.cache-icx.outputs.cache-hit != 'true' }}
+        run: |
+          bash .github/workflows/oneapi_cache_exclude_linux.sh
