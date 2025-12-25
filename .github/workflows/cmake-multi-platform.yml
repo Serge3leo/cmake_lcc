@@ -98,6 +98,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Deleting caches for this test case
+        run: |
+          set +e
+          gh cache delete \
+              "cache-qemu-e2k-ebc4bbdbe5d74bbf5a59784f697a6df64a9aa299"
 
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
@@ -128,10 +137,6 @@ jobs:
         run: |
           source /opt/intel/oneapi/setvars.sh
           printenv >> $GITHUB_ENV
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
 
       - name: Install python module
         run: |
