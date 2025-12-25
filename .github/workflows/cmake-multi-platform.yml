@@ -104,7 +104,7 @@ jobs:
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 10
         # TODO: matrix.mrognor_version
-        uses: ${{ matrix.mrognor_version }}
+        uses: matrix.mrognor_version
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
