@@ -107,10 +107,11 @@ jobs:
       - name: Deleting caches for this test case
         if: ${{ matrix.c_compiler == 'lcc' }}
         run: |
+          set +e
+          gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id'
           echo "Fetching list of cache keys"
-          cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100 \
-                                         --json id --jq '.[].id' | \
-                           grep cache-qemu-e2k)
+          cacheKeysForPR=\
+            $(gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id')
           echo "cacheKeysForPR=$cacheKeysForPR"
           ## Setting this to not fail the workflow while deleting cache keys.
           set +e
