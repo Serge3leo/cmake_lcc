@@ -108,8 +108,8 @@ jobs:
         if: ${{ matrix.c_compiler == 'lcc' }}
         run: |
           echo "Fetching list of cache keys"
-          cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100
-                                         --json id --jq '.[].id' |
+          cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100 \
+                                         --json id --jq '.[].id' | \
                            grep cache-qemu-e2k)
           echo "cacheKeysForPR=$cacheKeysForPR"
           ## Setting this to not fail the workflow while deleting cache keys.
