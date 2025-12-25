@@ -97,7 +97,7 @@ jobs:
             c_compiler: cl
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
