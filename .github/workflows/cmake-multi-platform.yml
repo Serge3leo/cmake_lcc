@@ -104,6 +104,11 @@ jobs:
 
       # See:
       # https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manage-caches
+      # TODO: Надо разобраться, пока не получилось.
+      # "X Failed to delete cache: HTTP 403: Resource not accessible by
+      # integration"
+      #
+      # Пока вручную придётся.
       - name: Deleting caches for this test case
         if: ${{ matrix.c_compiler == 'lcc' }}
         run: |
@@ -127,6 +132,12 @@ jobs:
           GH_REPO: ${{ github.repository }}
           BRANCH: ${{ github.ref }}
 
+      #
+      # ПРЕДУПРЕЖДЕНИЕ:
+      #
+      # Для повторения проблемы требуется вручную удалить кэши вида:
+      #   cache-qemu-e2k-.*
+      #
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 10
