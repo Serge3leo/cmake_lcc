@@ -108,10 +108,10 @@ jobs:
         if: ${{ matrix.c_compiler == 'lcc' }}
         run: |
           set +e
-          gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id'
+          gh cache list --ref "$BRANCH" --limit 100 --json id --jq '.[].id'
           echo "Fetching list of cache keys"
           cacheKeysForPR=\
-            $(gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id')
+            $(gh cache list --ref "$BRANCH" --limit 100 --json id --jq '.[].id')
           echo "cacheKeysForPR=$cacheKeysForPR"
           ## Setting this to not fail the workflow while deleting cache keys.
           set +e
@@ -124,7 +124,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          BRANCH: ${{ github.event.ref }}
+          BRANCH: ${{ github.ref }}
 
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
