@@ -97,11 +97,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
 
+      #
+      # ПРЕДУПРЕЖДЕНИЕ:
+      #
+      # Для повторения проблемы требуется вручную удалить кэши вида:
+      #   cache-qemu-e2k-.*
+      #
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 10
-        uses: mrognor/lcc-env-action@207fb85ae36c2b48dabf276e5a347e2d608f0832
+        uses: mrognor/lcc-env-action@a20244533b00a95ad87742b987347b693beedb53
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
@@ -126,10 +135,6 @@ jobs:
         run: |
           source /opt/intel/oneapi/setvars.sh
           printenv >> $GITHUB_ENV
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
 
       - name: Install python module
         run: |
