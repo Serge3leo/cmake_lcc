@@ -102,6 +102,10 @@ jobs:
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 3
         uses: mrognor/lcc-env-action@a20244533b00a95ad87742b987347b693beedb53
+        with:
+          lcc_link: https://dev.mcst.ru/downloads/2025-06-27/cross-sp-1.29.12.e2k-v6.2c3.linux-6.1_64.tgz  # yamllint disable-line rule:line-length
+          lcc_tarname: cross-sp-1.29.12.e2k-v6.2c3.linux-6.1_64.tgz
+          lcc_dirname: lcc-1.29.12.e2k-v6.2c3.linux-6.1
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
@@ -183,7 +187,7 @@ jobs:
         # https://cmake.org/cmake/help/latest/manual/ctest.1.html for more
         # detail
 
-        run: ctest --build-config ${{ matrix.build_type }}
+        run: ctest --output-on-failure --build-config ${{ matrix.build_type }}
 
       - name: Run Windows
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
