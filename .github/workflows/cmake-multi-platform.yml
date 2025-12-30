@@ -102,6 +102,10 @@ jobs:
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 3
         uses: mrognor/lcc-env-action@a20244533b00a95ad87742b987347b693beedb53
+        with:
+          lcc_link: https://dev.mcst.ru/downloads/2025-06-27/cross-sp-1.29.12.e2k-v5.8c2.linux-6.1_64.tgz  # yamllint disable-line rule:line-length
+          lcc_tarname: cross-sp-1.29.12.e2k-v5.8c2.linux-6.1_64.tgz
+          lcc_dirname: lcc-1.29.12.e2k-v5.8c2.linux-6.1
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
