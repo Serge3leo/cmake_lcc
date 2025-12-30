@@ -77,7 +77,6 @@ jobs:
             platform: "linux"
           - c_compiler: lcc
             cpp_compiler: l++
-            mrognor_version: 207fb85ae36c2b48dabf276e5a347e2d608f0832
             cross_emul: e2k
             cmake_add: >
               -DCMAKE_CROSSCOMPILING=ON -DCMAKE_SYSTEM_NAME=Generic-ELF
@@ -102,36 +101,6 @@ jobs:
         with:
           python-version: '3.13'
 
-      # See:
-      # https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manage-caches
-      # TODO: Надо разобраться, пока не получилось.
-      # "X Failed to delete cache: HTTP 403: Resource not accessible by
-      # integration"
-      #
-      # Пока вручную придётся.
-      - name: Deleting caches for this test case
-        if: ${{ matrix.c_compiler == 'lcc' }}
-        run: |
-          set +e
-          gh cache list --key cache-lcc --limit 100 --json id --jq '.[].id'
-          echo "Fetching list of cache keys"
-          cacheKeysForPR="$(
-              gh cache list --key cache-lcc --limit 100 --json id --jq '.[].id'
-              )"
-          echo "cacheKeysForPR=$cacheKeysForPR"
-          ## Setting this to not fail the workflow while deleting cache keys.
-          set +e
-          echo "Deleting caches..."
-          for cacheKey in $cacheKeysForPR
-          do
-              gh cache delete $cacheKey
-          done
-          echo "Done"
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-          BRANCH: ${{ github.ref }}
-
       #
       # ПРЕДУПРЕЖДЕНИЕ:
       #
@@ -141,8 +110,7 @@ jobs:
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 10
-        # TODO: matrix.mrognor_version
-        uses: mrognor/lcc-env-action@207fb85ae36c2b48dabf276e5a347e2d608f0832
+        uses: mrognor/lcc-env-action@a20244533b00a95ad87742b987347b693beedb53
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
