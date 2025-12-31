@@ -116,7 +116,7 @@ jobs:
         run: |
           cd /usr/local/bin
           shasum -a 512 qemu-e2k-static
-          echo ${{ env.sha512 }}"  qemu-e2k-static" | shasum -a 512 -c -
+          printf "%s  qemu-e2k-static" "${{ env.sha512 }}" | shasum -a 512 -c -
 
       - name: Cache install oneAPI
         if: ${{ matrix.c_compiler == 'icx' }}
