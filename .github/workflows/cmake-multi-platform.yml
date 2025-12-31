@@ -101,7 +101,7 @@ jobs:
       - name: Install LCC MCST Elbrus e2k (internal caching)
         if: ${{ matrix.c_compiler == 'lcc' }}
         timeout-minutes: 3
-        uses: Serge3leo/lcc-env-action@94e2c26aea66079335b9fd953dec6807873c708d
+        uses: Serge3leo/lcc-env-action@2a6e6615e754722dfa4bcc75a3f43d06740c7faf
         with:
           lcc_link: https://dev.mcst.ru/downloads/2025-06-27/cross-sp-1.29.12.e2k-v6.2c3.linux-6.1_64.tgz  # yamllint disable-line rule:line-length
           lcc_tarname: cross-sp-1.29.12.e2k-v6.2c3.linux-6.1_64.tgz
